@@ -20,7 +20,7 @@ function getUserByEmail(email) {
 		found: false
 	}
 
-	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
+	pool.query(`SELECT * FROM users WHERE email = '${email}'`, (err, rows) => {
 		if (err)
 			throw err;
 
@@ -30,6 +30,7 @@ function getUserByEmail(email) {
 			user.date = row.date
 			user.hash = row.hash
 			user.found = true
+			console.log("found")
 		}
 		else {
 			user.found = false
