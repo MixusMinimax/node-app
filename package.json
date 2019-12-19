@@ -1,0 +1,14 @@
+{
+  "name": "node-pp",
+  "version": "0.1.0",
+  "description": "TestApp",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Maxi",
+  "dependencies": {
+    "mysql": "^2.x.x",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1"
+  }
+}
