@@ -92,6 +92,7 @@ app.post("/register", async (req, res) => {
 		password: req.body.password,
 		date: date.toMysqlFormat()
 	}
+	console.log(user)
 	const hash = await userHash(user)
 
 	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
