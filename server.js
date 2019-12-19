@@ -19,11 +19,6 @@ const pool = mysql.createPool({
 	database: config.mysql_database
 })
 
-pool.query(`CREATE TABLE if not exists users ( email varchar(255), name varchar(255), date DATE, hash varchar(255) )`, (err, rows) => {
-	if (err)
-		throw err
-})
-
 // functions
 
 async function userHash(user) {
