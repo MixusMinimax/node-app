@@ -33,18 +33,19 @@ function initialize(passport) {
                 const row = rows[0]
                 user.name = row.name
                 user.date = row.date
+                user.id = user.date
                 const hashValid = await userHashValid(user, row.hash)
                 if (hashValid) {
                     return done(null, user)
                 }
                 else {
                     // wrong password
-                    return done(null, false, { message: "Invalid email" })
+                    return done(null, false, { message: "Wrong password" })
                 }
             }
             else {
                 // user doesn't exist
-                return done(null, false, { message: "Wrong password" })
+                return done(null, false, { message: "Invalid email" })
             }
         })
     }
