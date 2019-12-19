@@ -9,6 +9,27 @@
 
     <% include ../partials/nav %>
 
+    <div id="banner">
+        <div class="wrap-center">
+            <div class="banner-centered" id="banner-text">
+                <h2>This is <strong>BEST WEBSITE</strong> there is</h2>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    $(document).scroll(function() {
+        var scrollPos = $(this).scrollTop();
+        $('#banner-text').css({
+          'top' : (scrollPos/3)+'px',
+          'opacity' : 1-(scrollPos/510)
+        });
+        $('#banner').css({
+          'background-position' : 'center ' + (-scrollPos/2)+'px'
+        });
+    });
+    </script>
+
     <div class="main">
 
         <h1>Hi!</h1>
