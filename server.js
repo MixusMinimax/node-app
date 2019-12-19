@@ -2,13 +2,27 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const escape = require('sql-escape')
 const mysql = require('mysql')
-const config = require('./config.json')
+const passport = require('passport')
+const flash = require('express-flash')
+const session = require('express-session')
+const initializePassport = require('./passport-config')
+const config = require('./config')
 const app = express()
 
 var port = process.env.PORT || 8080
 
+initializePassport(passport)
+
 app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
+app.use(flash())
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 // mysql
 
@@ -52,37 +66,11 @@ app.get("/login", (req, res) => {
 	res.render("login.ejs")
 })
 
-app.post("/login", async (req, res) => {
-	const user = {
-		email: req.body.email,
-		name: "",
-		password: req.body.password,
-		date: ""
-	}
-
-	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
-		if (err)
-			throw err;
-
-		if (rows.length == 1) {
-			const row = rows[0]
-			user.name = row.name
-			user.date = row.date
-			const hashValid = await userHashValid(user, row.hash)
-			if (hashValid) {
-				res.redirect("/")
-			}
-			else {
-				// wrong password
-				res.redirect("/login")
-			}
-		}
-		else {
-			// user doesn't exist
-			res.redirect("/login")
-		}
-	})
-})
+app.post("/login", passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/login',
+	failureFlash: true
+}))
 
 app.get("/register", (req, res) => {
 	res.render("register.ejs")
