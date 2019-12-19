@@ -10,6 +10,32 @@ const pool = mysql.createPool({
     database: config.mysql_database
 })
 
+function getUserByEmail(email) {
+    const user = {
+        email: email,
+        name: "",
+        password: "",
+        date: "",
+        hash: ""
+    }
+
+    pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
+        if (err)
+            throw err;
+
+        if (rows.length == 1) {
+            const row = rows[0]
+            user.name = row.name
+            user.date = row.date
+            user.hash = row.hash
+            return user
+        }
+        else {
+            return null
+        }
+    })
+}
+
 async function userHashValid(user, hash) {
     const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
     return bcrypt.compare(str, hash);
@@ -17,44 +43,29 @@ async function userHashValid(user, hash) {
 
 function initialize(passport) {
     const authenticateUser = (email, password, done) => {
-        const user = {
-            email: email,
-            name: "",
-            password: password,
-            date: ""
+        const user = getUserByEmail(email)
+        if (user == null) {
+            // user doesn't exist
+            return done(null, false, { message: "Invalid email" })
         }
+        user.password = password
 
-        pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
-            if (err)
-                throw err;
-
-            if (rows.length == 1) {
-                const row = rows[0]
-                user.name = row.name
-                user.date = row.date
-                user.id = user.date
-                const hashValid = await userHashValid(user, row.hash)
-                if (hashValid) {
-                    return done(null, user)
-                }
-                else {
-                    // wrong password
-                    return done(null, false, { message: "Wrong password" })
-                }
-            }
-            else {
-                // user doesn't exist
-                return done(null, false, { message: "Invalid email" })
-            }
-        })
+        if (await userHashValid(user, row.hash)) {
+            return done(null, user)
+        }
+        else {
+            // wrong password
+            return done(null, false, { message: "Wrong password" })
+        }
     }
 
     passport.use(new LocalStrategy({
-        usernameField: "email",
-        passwordField: 'password'
+        usernameField: "email"
     }, authenticateUser))
-    passport.serializeUser((user, done) => { })
-    passport.deserializeUser((id, done) => { })
+    passport.serializeUser((user, done) => done(null, user.email))
+    passport.deserializeUser((id, done) => {
+        done(null, getUserByEmail(id))
+    })
 }
 
 module.exports = initialize
