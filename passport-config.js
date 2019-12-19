@@ -50,6 +50,8 @@ function initialize(passport) {
 			}
 			user.password = password
 
+			console.log(user)
+
 			if (userHashValid(user)) {
 				return done(null, user)
 			}
