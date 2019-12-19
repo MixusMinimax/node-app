@@ -35,6 +35,7 @@ function getUserByEmail(email) {
 			user.found = false
 		}
 	})
+	console.log(user)
 	return user
 }
 
