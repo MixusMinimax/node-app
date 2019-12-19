@@ -31,6 +31,7 @@ function getUserByEmail(email) {
             return user
         }
         else {
+            console.log(`Invalid: ${email}`)
             return null
         }
     })
