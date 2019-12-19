@@ -44,12 +44,6 @@ async function userHash(user) {
 	return bcrypt.hash(str, 10)
 }
 
-async function userHashValid(user, hash)
-{
-	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-	return bcrypt.compare(str, hash);
-}
-
 function twoDigits(d) {
 	if (0 <= d && d < 10) return "0" + d.toString();
 	if (-10 < d && d < 0) return "-0" + (-1 * d).toString();

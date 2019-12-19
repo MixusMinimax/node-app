@@ -2,7 +2,6 @@ const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 const mysql = require('mysql')
 const config = require('./config')
-const userHashValid = require('./server.js').userHashValid
 
 const pool = mysql.createPool({
 	host: config.mysql_host,
@@ -10,6 +9,12 @@ const pool = mysql.createPool({
 	password: config.mysql_password,
 	database: config.mysql_database
 })
+
+async function userHashValid(user, hash)
+{
+	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
+	return bcrypt.compare(str, hash);
+}
 
 function initialize(passport) {
     const authenticateUser = (email, password, done) => {
