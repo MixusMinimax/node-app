@@ -28,7 +28,7 @@ pool.query(`CREATE TABLE if not exists users ( email varchar(255), name varchar(
 
 function userHash(user) {
     var str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-    return bcrypt.hash(str);
+    return bcrypt.hash(str, "datboi");
 }
 
 function twoDigits(d) {
