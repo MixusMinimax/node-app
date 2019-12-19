@@ -59,7 +59,7 @@ app.get("/register", (req, res) => {
     res.render("register.ejs")
 })
 
-app.post("/register", async (req, res) => {
+app.post("/register", (req, res) => {
     const date = new Date();
     const user = {
         email: req.body.email,
