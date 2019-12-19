@@ -10,7 +10,9 @@
     "bcrypt": "^3.0.7",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "mysql": "^2.x.x",
+    "passport": "^0.4.1",
     "sql-escape": "^1.0.1"
   }
 }
