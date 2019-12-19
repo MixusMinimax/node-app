@@ -23,7 +23,7 @@ const pool = mysql.createPool({
 
 async function userHash(user) {
 	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-	return bcrypt.hash(str, 10)
+	return await bcrypt.hash(str, 10)
 }
 
 function twoDigits(d) {
@@ -94,6 +94,7 @@ app.post("/register", async (req, res) => {
 	}
 	console.log(user)
 	const hash = await userHash(user)
+	console.log(hash)
 
 	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
 		if (err)
