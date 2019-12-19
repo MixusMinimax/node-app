@@ -62,8 +62,8 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
     const date = new Date();
     const user = {
-        email: escape(req.body.email),
-        name: "'" + escape(req.body.name) + "'",
+        email: "'" + escape(req.body.email) + "'",
+        name: escape(req.body.name),
         password: req.body.password,
         date: date.toMysqlFormat()
     }
