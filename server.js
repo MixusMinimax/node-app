@@ -59,7 +59,7 @@ app.post("/login", async (req, res) => {
 		date: ""
 	}
 
-	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
+	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
 		if (err)
 			throw err;
 
@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
 			const row = rows[0]
 			user.name = row.name
 			user.date = row.date
-			const hash = userHash(user)
+			const hash = await userHash(user)
 			if (hash === row.hash) {
 				res.redirect("/")
 			}
@@ -97,7 +97,7 @@ app.post("/register", async (req, res) => {
 	}
 	const hash = await userHash(user)
 
-	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
+	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
 		if (err)
 			throw err;
 
