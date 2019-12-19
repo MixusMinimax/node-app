@@ -68,15 +68,13 @@ app.post("/register", async (req, res) => {
         date: date.toMysqlFormat()
     }
 
-    pool.query(`SELECT * FROM users WHERE email = ${user.email}`, (err, rows) => {
+    pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
         if (err)
             throw err;
 
         if (rows.length == 0) {
             const hash = userHash(user);
-            const q = `INSERT INTO users (email, name, date, hash) VALUES ('${user.email}', '${user.name}', '${user.date}', '${hash}')`
-            console.log(q)
-            pool.query(q, (err2, rows2) => {
+            pool.query(`INSERT INTO users (email, name, date, hash) VALUES ('${user.email}', '${user.name}', '${user.date}', '${hash}')`, (err2, rows2) => {
                 if (err2)
                     throw err2;
             });
