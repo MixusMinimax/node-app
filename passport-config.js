@@ -4,16 +4,15 @@ const mysql = require('mysql')
 const config = require('./config')
 
 const pool = mysql.createPool({
-	host: config.mysql_host,
-	user: config.mysql_user,
-	password: config.mysql_password,
-	database: config.mysql_database
+    host: config.mysql_host,
+    user: config.mysql_user,
+    password: config.mysql_password,
+    database: config.mysql_database
 })
 
-async function userHashValid(user, hash)
-{
-	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-	return bcrypt.compare(str, hash);
+async function userHashValid(user, hash) {
+    const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
+    return bcrypt.compare(str, hash);
 }
 
 function initialize(passport) {
@@ -50,7 +49,10 @@ function initialize(passport) {
         })
     }
 
-    passport.use(new LocalStrategy({ usernameField: "email" }, authenticateUser))
+    passport.use(new LocalStrategy({
+        usernameField: "email",
+        passwordField: 'password'
+    }, authenticateUser))
     passport.serializeUser((user, done) => { })
     passport.deserializeUser((id, done) => { })
 }
