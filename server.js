@@ -9,6 +9,7 @@ const mysql = require('mysql')
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
+const methodOverride = require('method-override')
 const initializePassport = require('./passport-config')
 const config = require('./config')
 const app = express()
@@ -27,6 +28,7 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(methodOverride('_method'))
 
 // mysql
 
@@ -64,7 +66,10 @@ app.get("/", (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-	res.render("login.ejs")
+	if (req.isAuthenticated())
+		res.redirect("/")
+	else
+		res.render("login.ejs")
 })
 
 app.post("/login", passport.authenticate('local', {
@@ -74,7 +79,10 @@ app.post("/login", passport.authenticate('local', {
 }))
 
 app.get("/register", (req, res) => {
-	res.render("register.ejs")
+	if (req.isAuthenticated())
+		res.redirect("/")
+	else
+		res.render("register.ejs")
 })
 
 app.post("/register", async (req, res) => {
@@ -104,6 +112,11 @@ app.post("/register", async (req, res) => {
 			res.redirect("/register")
 		}
 	})
+})
+
+app.delete("/logout", (req, res) => {
+	req.logOut()
+	res.redirect("/")
 })
 
 // start
