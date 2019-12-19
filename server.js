@@ -73,12 +73,7 @@ app.post("/register", async (req, res) => {
             throw err;
 
         if (rows.length == 0) {
-            const hash = await new Promise((resolve, reject) => {
-                userHash(user, function (e, h) {
-                    if (e) reject(e)
-                    resolve(h)
-                });
-            })
+            const hash = await userHash(user)
             pool.query(`INSERT INTO users (email, name, date, hash) VALUES ('${user.email}', '${user.name}', '${user.date}', '${hash}')`, (err2, rows2) => {
                 if (err2)
                     throw err2;
