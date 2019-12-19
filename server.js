@@ -96,7 +96,7 @@ app.post("/register", async (req, res) => {
 	const hash = await userHash(user)
 	console.log(hash)
 
-	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
+	query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
 		if (err)
 			throw err;
 
