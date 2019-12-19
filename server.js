@@ -23,7 +23,13 @@ const pool = mysql.createPool({
 
 async function userHash(user) {
 	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-	return await bcrypt.hash(str, 10)
+	return bcrypt.hash(str, 10)
+}
+
+async function userHashValid(user, hash)
+{
+	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
+	return bcrypt.compare(str, hash);
 }
 
 function twoDigits(d) {
@@ -62,10 +68,8 @@ app.post("/login", async (req, res) => {
 			const row = rows[0]
 			user.name = row.name
 			user.date = row.date
-			const hash = await userHash(user)
-			console.log(user)
-			console.log(hash)
-			if (hash === row.hash) {
+			const hashValid = await userHashValid(user, row.hash)
+			if (hashValid) {
 				res.redirect("/")
 			}
 			else {
