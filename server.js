@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config()
+}
+
 const express = require('express')
 const bcrypt = require('bcrypt')
 const escape = require('sql-escape')
