@@ -36,7 +36,7 @@ function getUserByEmail(email, callback) {
 	})
 }
 
-async function userHashValid(user) {
+function userHashValid(user) {
 	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
 	return bcrypt.compare(str, user.hash);
 }
