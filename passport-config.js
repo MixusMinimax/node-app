@@ -46,7 +46,7 @@ async function userHashValid(user) {
 function initialize(passport) {
 	const authenticateUser = (email, password, done) => {
 		const user = getUserByEmail(email)
-		if (user.found) {
+		if (!user.found) {
 			// user doesn't exist
 			return done(null, false, { message: "Invalid email" })
 		}
