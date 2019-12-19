@@ -39,7 +39,9 @@ function getUserByEmail(email, callback) {
 async function userHashValid(user) {
 	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
 	console.log(str)
-	return await bcrypt.compare(str, user.hash);
+	const ret = await bcrypt.compare(str, user.hash);
+	console.log(ret)
+	return ret
 }
 
 function initialize(passport) {
