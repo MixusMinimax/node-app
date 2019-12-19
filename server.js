@@ -57,7 +57,7 @@ app.post("/register", async (req, res) => {
         if (rows.length == 0) {
             const date = new Date();
             const user = {
-                email: req.body.email,
+                email: escape(req.body.email),
                 name: escape(req.body.name),
                 password: req.body.password,
                 date: date
