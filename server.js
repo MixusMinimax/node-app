@@ -60,9 +60,9 @@ Date.prototype.toMysqlFormat = function () {
 
 app.get("/", (req, res) => {
 	if (req.isAuthenticated())
-		res.render("index.ejs", req.user)
+		res.render("pages/index.ejs", req.user)
 	else
-		res.render("indexAnonymous.ejs", req.user)
+		res.render("pages/indexAnonymous.ejs", req.user)
 })
 
 app.get("/login", (req, res) => {
