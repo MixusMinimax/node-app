@@ -19,7 +19,7 @@ function getUserByEmail(email) {
         hash: ""
     }
 
-    pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, async (err, rows) => {
+    pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
         if (err)
             throw err;
 
@@ -50,7 +50,7 @@ function initialize(passport) {
         }
         user.password = password
 
-        if (await userHashValid(user, row.hash)) {
+        if (userHashValid(user, row.hash)) {
             return done(null, user)
         }
         else {
