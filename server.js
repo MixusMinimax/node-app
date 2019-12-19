@@ -1,6 +1,7 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
-const escape = require('sql-escape');
+const escape = require('sql-escape')
+const mysql = require('mysql')
 const config = require('./config.json')
 const app = express()
 
