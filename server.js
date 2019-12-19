@@ -60,6 +60,7 @@ app.get("/register", (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
+    const date = new Date();
     const user = {
         email: escape(req.body.email),
         name: escape(req.body.name),
@@ -72,7 +73,6 @@ app.post("/register", async (req, res) => {
             throw err;
 
         if (rows.length == 0) {
-            const date = new Date();
             const hash = userHash(user);
             pool.query(`INSERT INTO users (email, name, date, hash) VALUES (${user.email}, ${user.name}, ${user.date}, ${hash})`, (err2, rows2) => {
                 if (err2)
