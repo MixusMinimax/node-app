@@ -28,12 +28,12 @@ function getUserByEmail(email) {
 			user.name = row.name
 			user.date = row.date
 			user.hash = row.hash
-			return user
 		}
 		else {
-			return null
+			user = null
 		}
 	})
+	return user
 }
 
 async function userHashValid(user, hash) {
