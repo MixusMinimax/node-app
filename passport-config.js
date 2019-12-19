@@ -19,20 +19,26 @@ function getUserByEmail(email, callback) {
 		hash: "",
 	}
 
-	pool.query(`SELECT * FROM users WHERE email = '${email}'`, (err, rows) => {
-		if (err)
-			throw err;
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT * FROM users WHERE email = '${email}'`, (err, rows) => {
 
-		if (rows.length == 1) {
-			const row = rows[0]
-			user.name = row.name
-			user.date = row.date
-			user.hash = row.hash
-			return callback(user)
-		}
-		else {
-			return callback(null)
-		}
+			if (rows === undefined)
+				reject(new Error("Error rows is undefined"))
+
+			if (err)
+				throw err;
+
+			if (rows.length == 1) {
+				const row = rows[0]
+				user.name = row.name
+				user.date = row.date
+				user.hash = row.hash
+				resolve(user)
+			}
+			else {
+				resolve(null)
+			}
+		})
 	})
 }
 
@@ -43,21 +49,20 @@ async function userHashValid(user) {
 
 function initialize(passport) {
 	const authenticateUser = (email, password, done) => {
-		getUserByEmail(email, (user) => {
-			if (user == null) {
-				// user doesn't exist
-				return done(null, false, { message: "Invalid email" })
-			}
-			user.password = password
-	
-			if (userHashValid(user)) {
-				return done(null, user)
-			}
-			else {
-				// wrong password
-				return done(null, false, { message: "Wrong password" })
-			}
-		})
+		const user = getUserByEmail(email)
+		if (user == null) {
+			// user doesn't exist
+			return done(null, false, { message: "Invalid email" })
+		}
+		user.password = password
+
+		if (userHashValid(user)) {
+			return done(null, user)
+		}
+		else {
+			// wrong password
+			return done(null, false, { message: "Wrong password" })
+		}
 	}
 
 	passport.use(new LocalStrategy({
@@ -65,7 +70,7 @@ function initialize(passport) {
 	}, authenticateUser))
 	passport.serializeUser((user, done) => done(null, user.email))
 	passport.deserializeUser((id, done) => {
-		done(null, getUserByEmail(id, (user) =>{ return user }))
+		done(null, getUserByEmail(id))
 	})
 }
 
