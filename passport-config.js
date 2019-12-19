@@ -65,7 +65,7 @@ function initialize(passport) {
 	}, authenticateUser))
 	passport.serializeUser((user, done) => done(null, user.email))
 	passport.deserializeUser((id, done) => {
-		done(null, getUserByEmail(id))
+		done(null, getUserByEmail(id, (user) =>{ return user }))
 	})
 }
 
