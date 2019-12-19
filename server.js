@@ -26,18 +26,25 @@ pool.query(`CREATE TABLE if not exists users ( email varchar(255), name varchar(
 
 // functions
 
-function userHash(user) {
+async function userHash(user) {
     var str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-    return bcrypt.hash(str, "datboi");
+
+    const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(str, "datboi", function (err, hash) {
+            if (err) reject(err)
+            resolve(hash)
+        })
+    })
+    return hashedPassword
 }
 
 function twoDigits(d) {
-    if(0 <= d && d < 10) return "0" + d.toString();
-    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
     return d.toString();
 }
 
-Date.prototype.toMysqlFormat = function() {
+Date.prototype.toMysqlFormat = function () {
     return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate())
 };
 
