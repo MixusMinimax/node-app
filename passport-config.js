@@ -1,8 +1,14 @@
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 const mysql = require('mysql')
-const pool = require('./server.js').pool
 const userHashValid = require('./server.js').userHashValid
+
+const pool = mysql.createPool({
+	host: config.mysql_host,
+	user: config.mysql_user,
+	password: config.mysql_password,
+	database: config.mysql_database
+})
 
 function initialize(passport) {
     const authenticateUser = (email, password, done) => {
