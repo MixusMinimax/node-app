@@ -1,0 +1,110 @@
+.jumbotron {
+  background: #342f8c;
+  color: white;
+  padding-bottom: 80px;
+}
+.jumbotron .btn-primary {
+  background: #5f5ac7;
+  border-color: #5a67c7;
+}
+.jumbotron .btn-primary:hover {
+  background: #464ec1;
+}
+.jumbotron p {
+  color: #cccfee;
+  max-width: 75%;
+  margin: 1em auto 2em;
+}
+.jumbotron h1 {
+  font-size: 40px;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index: 10;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background: #ddd;
+  color: black;
+}
+
+.main {
+  margin-top: 30px; /* Add a top margin to avoid content overlay */
+}
+
+.jumbotron .lang-logo {
+  display: block;
+  background: #B01302;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  border: 2px solid white;
+}
+.jumbotron .lang-logo img {
+  max-width: 100%;
+}
+
+body {
+  height: 2500px
+}
+
+#banner {
+  margin-bottom: 50px;
+	overflow: hidden;
+	width: 100%;
+	/*height: 450px;*/
+  padding-bottom: 25%;
+	position: relative;
+	clear: both;
+	background: transparent url(../images/banner.png) center center no-repeat fixed;
+	-webkit-background-size: 100% auto;
+	-moz-background-size: 100% auto;
+	-o-background-size: 100% auto;
+	background-size: 100% auto;
+  background-position: top;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/banner.png',sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/banner.png',sizingMethod='scale')";
+}
+
+.wrap-center{
+	margin: 0 auto;
+	position: relative;
+	max-width: 73.231em;
+  padding-top: 0px;
+}
+
+.banner-centered {
+	text-align: center;
+	position: absolute;
+	display: block;
+	max-width: 75.231em;
+	height: inherit;
+	overflow: hidden;
+	margin-top: 20px;
+}
+
+.banner-centered h2 {
+	font-size: 4.385em;
+	line-height: 1.5;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	color: #5a5a5a;
+	font-weight: 100;
+	display: block;
+}
