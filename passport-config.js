@@ -29,6 +29,7 @@ function getUserByEmail(email) {
 			user.name = row.name
 			user.date = row.date
 			user.hash = row.hash
+			user.found = true
 		}
 		else {
 			user.found = false
