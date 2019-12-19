@@ -17,7 +17,7 @@ function getUserByEmail(email) {
 		password: "",
 		date: "",
 		hash: "",
-		found: true
+		found: false
 	}
 
 	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
