@@ -38,15 +38,12 @@ function getUserByEmail(email, callback) {
 
 async function userHashValid(user) {
 	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-	console.log(str)
-	const ret = await bcrypt.compare(str, user.hash);
-	console.log(ret)
-	return ret
+	return await bcrypt.compare(str, user.hash);
 }
 
 function initialize(passport) {
 	const authenticateUser = (email, password, done) => {
-		getUserByEmail(email, (user) => {
+		getUserByEmail(email, async (user) => {
 			if (user == null) {
 				// user doesn't exist
 				return done(null, false, { message: "Invalid email" })
@@ -55,7 +52,7 @@ function initialize(passport) {
 
 			console.log(user)
 
-			if (userHashValid(user)) {
+			if (await userHashValid(user)) {
 				return done(null, user)
 			}
 			else {
