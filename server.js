@@ -26,8 +26,8 @@ pool.query(`CREATE TABLE if not exists users ( email varchar(255), name varchar(
 
 // functions
 
-async function userHash(user) {
-    var str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
+function userHash(user) {
+    const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
 
     const hashedPassword = await new Promise((resolve, reject) => {
         bcrypt.hash(str, "datboi", function (err, hash) {
