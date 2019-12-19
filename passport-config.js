@@ -16,7 +16,8 @@ function getUserByEmail(email) {
 		name: "",
 		password: "",
 		date: "",
-		hash: ""
+		hash: "",
+		found: true
 	}
 
 	pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
@@ -30,27 +31,27 @@ function getUserByEmail(email) {
 			user.hash = row.hash
 		}
 		else {
-			user = null
+			user.found = false
 		}
 	})
 	return user
 }
 
-async function userHashValid(user, hash) {
+async function userHashValid(user) {
 	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-	return bcrypt.compare(str, hash);
+	return bcrypt.compare(str, user.hash);
 }
 
 function initialize(passport) {
 	const authenticateUser = (email, password, done) => {
 		const user = getUserByEmail(email)
-		if (user == null) {
+		if (user.found) {
 			// user doesn't exist
 			return done(null, false, { message: "Invalid email" })
 		}
 		user.password = password
 
-		if (userHashValid(user, user.hash)) {
+		if (userHashValid(user)) {
 			return done(null, user)
 		}
 		else {
