@@ -60,18 +60,19 @@ app.get("/register", (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
-    pool.query(`SELECT * FROM users WHERE email = ${req.body.email}`, (err, rows) => {
+    const user = {
+        email: escape(req.body.email),
+        name: escape(req.body.name),
+        password: req.body.password,
+        date: date.toMysqlFormat()
+    }
+
+    pool.query(`SELECT * FROM users WHERE email = ${user.email}`, (err, rows) => {
         if (err)
             throw err;
 
         if (rows.length == 0) {
             const date = new Date();
-            const user = {
-                email: escape(req.body.email),
-                name: escape(req.body.name),
-                password: req.body.password,
-                date: date.toMysqlFormat()
-            }
             const hash = userHash(user);
             pool.query(`INSERT INTO users (email, name, date, hash) VALUES (${user.email}, ${user.name}, ${user.date}, ${hash})`, (err2, rows2) => {
                 if (err)
