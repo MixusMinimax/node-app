@@ -69,7 +69,7 @@ app.get("/login", (req, res) => {
 	if (req.isAuthenticated())
 		res.redirect("/")
 	else
-		res.render("login.ejs")
+		res.render("pages/login.ejs")
 })
 
 app.post("/login", passport.authenticate('local', {
@@ -82,7 +82,7 @@ app.get("/register", (req, res) => {
 	if (req.isAuthenticated())
 		res.redirect("/")
 	else
-		res.render("register.ejs")
+		res.render("pages/register.ejs")
 })
 
 app.post("/register", async (req, res) => {
