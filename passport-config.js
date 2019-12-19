@@ -10,17 +10,16 @@ const pool = mysql.createPool({
 	database: config.mysql_database
 })
 
-function getUserByEmail(email) {
+function getUserByEmail(email, callback) {
 	var user = {
 		email: email,
 		name: "",
 		password: "",
 		date: "",
 		hash: "",
-		found: false
 	}
 
-	await pool.query(`SELECT * FROM users WHERE email = '${email}'`, (err, rows) => {
+	pool.query(`SELECT * FROM users WHERE email = '${email}'`, (err, rows) => {
 		if (err)
 			throw err;
 
@@ -29,15 +28,12 @@ function getUserByEmail(email) {
 			user.name = row.name
 			user.date = row.date
 			user.hash = row.hash
-			user.found = true
-			console.log("found")
+			return callback(user)
 		}
 		else {
-			user.found = false
+			return callback(null)
 		}
 	})
-	console.log(user)
-	return user
 }
 
 async function userHashValid(user) {
@@ -47,20 +43,21 @@ async function userHashValid(user) {
 
 function initialize(passport) {
 	const authenticateUser = (email, password, done) => {
-		const user = getUserByEmail(email)
-		if (!user.found) {
-			// user doesn't exist
-			return done(null, false, { message: "Invalid email" })
-		}
-		user.password = password
-
-		if (userHashValid(user)) {
-			return done(null, user)
-		}
-		else {
-			// wrong password
-			return done(null, false, { message: "Wrong password" })
-		}
+		getUserByEmail(email, (user) => {
+			if (user == null) {
+				// user doesn't exist
+				return done(null, false, { message: "Invalid email" })
+			}
+			user.password = password
+	
+			if (userHashValid(user)) {
+				return done(null, user)
+			}
+			else {
+				// wrong password
+				return done(null, false, { message: "Wrong password" })
+			}
+		})
 	}
 
 	passport.use(new LocalStrategy({
