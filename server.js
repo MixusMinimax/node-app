@@ -57,7 +57,10 @@ Date.prototype.toMysqlFormat = function () {
 // routes
 
 app.get("/", (req, res) => {
-	res.render("index.ejs", req.user)
+	if (req.isAuthenticated())
+		res.render("index.ejs", req.user)
+	else
+		res.render("indexAnonymous.ejs", req.user)
 })
 
 app.get("/login", (req, res) => {
