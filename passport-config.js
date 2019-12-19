@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
+const mysql = require('mysql')
 const server = require('./server.js')
 const pool = server.pool
 const userHashValid = server.userHashValid
