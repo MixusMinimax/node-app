@@ -68,6 +68,7 @@ app.post("/login", async (req, res) => {
 			user.name = row.name
 			user.date = row.date
 			const hash = await userHash(user)
+			console.log(user)
 			console.log(hash)
 			if (hash === row.hash) {
 				res.redirect("/")
