@@ -20,7 +20,7 @@ function getUserByEmail(email) {
 		found: false
 	}
 
-	pool.query(`SELECT * FROM users WHERE email = '${email}'`, (err, rows) => {
+	await pool.query(`SELECT * FROM users WHERE email = '${email}'`, (err, rows) => {
 		if (err)
 			throw err;
 
