@@ -1,7 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 const mysql = require('mysql')
-const query = require('./server.js').pool.query
+const query = require('./server.js').query
 const userHashValid = require('./server.js').userHashValid
 
 function initialize(passport) {

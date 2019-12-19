@@ -39,6 +39,10 @@ const pool = mysql.createPool({
 
 // functions
 
+function query(q, callback) {
+	pool.query(q, callback);
+}
+
 async function userHash(user) {
 	const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
 	return bcrypt.hash(str, 10)
