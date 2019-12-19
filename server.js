@@ -30,7 +30,7 @@ function userHash(user) {
     const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
 
     const hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(str, "datboi", function (err, hash) {
+        bcrypt.hash(str, 10, function (err, hash) {
             if (err) reject(err)
             resolve(hash)
         })
