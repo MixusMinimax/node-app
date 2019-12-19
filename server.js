@@ -28,14 +28,7 @@ pool.query(`CREATE TABLE if not exists users ( email varchar(255), name varchar(
 
 async function userHash(user) {
     const str = `email: ${user.email} name: ${user.name} password: ${user.password} date: ${user.date}`;
-    const hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(str, 10, function (err, hash) {
-            if (err) reject(err)
-            resolve(hash)
-        });
-    })
-
-    return hashedPassword
+    return bcrypt.hash(str, 10)
 }
 
 function twoDigits(d) {
@@ -74,13 +67,13 @@ app.post("/register", async (req, res) => {
         password: req.body.password,
         date: date.toMysqlFormat()
     }
+    const hash = await userHash(user)
 
     pool.query(`SELECT * FROM users WHERE email = '${user.email}'`, (err, rows) => {
         if (err)
             throw err;
 
         if (rows.length == 0) {
-            const hash = userHash(user)
             pool.query(`INSERT INTO users (email, name, date, hash) VALUES ('${user.email}', '${user.name}', '${user.date}', '${hash}')`, (err2, rows2) => {
                 if (err2)
                     throw err2;
