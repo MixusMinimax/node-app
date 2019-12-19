@@ -50,7 +50,7 @@ function initialize(passport) {
 		}
 		user.password = password
 
-		if (userHashValid(user, row.hash)) {
+		if (userHashValid(user, user.hash)) {
 			return done(null, user)
 		}
 		else {
