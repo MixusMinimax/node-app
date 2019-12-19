@@ -28,6 +28,7 @@ function getUserByEmail(email) {
             user.name = row.name
             user.date = row.date
             user.hash = row.hash
+            console.log(`Valid: ${email}`)
             return user
         }
         else {
