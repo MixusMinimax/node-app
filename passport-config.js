@@ -5,9 +5,9 @@ const userHashValid = require('./server.js').userHashValid
 function initialize(passport) {
     const authenticateUser = (email, password, done) => {
         const user = {
-            email: req.body.email,
+            email: email,
             name: "",
-            password: req.body.password,
+            password: password,
             date: ""
         }
 
