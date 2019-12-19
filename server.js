@@ -39,7 +39,7 @@ const pool = mysql.createPool({
 
 // functions
 
-function query(q, callback) {
+async function query(q, callback) {
 	pool.query(q, callback);
 }
 
