@@ -75,7 +75,7 @@ app.post("/register", async (req, res) => {
             const date = new Date();
             const hash = userHash(user);
             pool.query(`INSERT INTO users (email, name, date, hash) VALUES (${user.email}, ${user.name}, ${user.date}, ${hash})`, (err2, rows2) => {
-                if (err)
+                if (err2)
                     throw err;
             });
             res.redirect("/login")
